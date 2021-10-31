@@ -1,27 +1,26 @@
 package controller;
 
-import dao.FakultetSqlLogic;
-import model.Student;
-import service.Service;
+import java.util.Scanner;
 
 public class GlavnaKlasa {
 
 	public static void main(String[] args) {
 		
-		Service service = new Service();
+		UpdateController controller = new UpdateController();
 		
-		String ime = "Petar";
-		String prezime = "Petrovic 2";
-		int index = 679;
-		int smer = 4;
-		int drzava = 1;
-		int ispiti = 5;
-		String imeDrzave = "Kanada";
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Unesite id: ");
+		    String idDrzava = scanner.nextLine();
+		System.out.println("Unesite ime drzave: ");
+		    String nazivDrzave = scanner.nextLine();
+		    scanner.close();
+		controller.proslediParametre(idDrzava, nazivDrzave);
+			
 		
-		service.posaljiPozdrav();
-		Student student = service.setujStudenta(ime,prezime,index,drzava,smer,ispiti);
-		service.unesiStudentaUbazu(student); 
-		service.unesiDrzavuUbazu(imeDrzave);
+		
+		
+		
+		
 		
 	}
 

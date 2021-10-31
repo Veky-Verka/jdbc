@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import metode.CommonMethods;
+import model.Drzava;
 import model.Student;
 
 public class FakultetSqlLogic {
@@ -94,6 +95,36 @@ public class FakultetSqlLogic {
 			zatvoriKonekcju(con);
 		}
 	
+	}
+
+	public void updateNazivDrzave(Drzava drzava) {
+		
+		Connection con = null;
+		PreparedStatement pst = null;
+		
+		try {
+			con = CommonMethods.konektujSe("fakultet");
+			System.out.println("Konekcija OK...");
+			
+			String sql = "update drzava \n"
+					+ "set naziv = ? \n"
+					+ "where id_drzava = ?";
+			pst = con.prepareStatement(sql);
+			  pst.setString(1, drzava.getNazivDrzave() );
+			  pst.setInt(2, drzava.getIdDrzava());
+			  
+			  pst.executeUpdate();
+			  System.out.println("Ime drzve promenjeno na " + drzava.getNazivDrzave());
+			  
+	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			zatvoriPreparedStatement(pst);
+			zatvoriKonekcju(con);
+		}
+		
+		
 	}
 
 }

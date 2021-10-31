@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import model.Drzava;
 import model.Student;
 
 public class CommonMethods {
@@ -43,11 +44,21 @@ public class CommonMethods {
 		   student.setDrzava(drzava);
 		   student.setIspiti(ispiti);
 		   
-		   return student;
-		   
-		   
+		   return student;	   
 	}
-	
-	
 
+	public Drzava setujDrzavu(String idDrzava, String nazivDrzave) {
+		
+		
+		Drzava drzava = new Drzava();
+		drzava.setIdDrzava(Integer.parseInt(idDrzava));
+		drzava.setNazivDrzave(nazivDrzave);
+		
+		return drzava;
+	}
+
+	
+	
+	
+	
 }
