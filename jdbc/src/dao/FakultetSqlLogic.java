@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import metode.CommonMethods;
@@ -18,6 +19,19 @@ public class FakultetSqlLogic {
 	//koje ce da zatvore konekciju i preparedstatement:
 	
 	//private - zato sto ce moci samo ovde da se koristi
+	
+	private void zatvoriResultSet(ResultSet rs) {
+		if(rs != null) {
+			try {
+				rs.close();
+				System.out.println("Zatvorio result set...");
+			} catch (SQLException e) {
+				System.out.println("Nije zatvorio result set!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private void zatvoriPreparedStatement(PreparedStatement ps) {
 		if(ps != null) {
 			try {
@@ -30,7 +44,7 @@ public class FakultetSqlLogic {
 		}
 	}
 	
-	private void zatvoriKonekcju(Connection con) {
+	private void zatvoriKonekciju(Connection con) {
 		if(con != null) {
 			try {
 				con.close();
@@ -60,7 +74,7 @@ public class FakultetSqlLogic {
 			e.printStackTrace();
 		} finally {
 			zatvoriPreparedStatement(ps);
-			zatvoriKonekcju(con);
+			zatvoriKonekciju(con);
 		}
 	
 	}
@@ -92,7 +106,7 @@ public class FakultetSqlLogic {
 			e.printStackTrace();
 		} finally {
 			zatvoriPreparedStatement(ps);
-			zatvoriKonekcju(con);
+			zatvoriKonekciju(con);
 		}
 	
 	}
@@ -121,10 +135,45 @@ public class FakultetSqlLogic {
 			e.printStackTrace();
 		} finally {
 			zatvoriPreparedStatement(pst);
-			zatvoriKonekcju(con);
+			zatvoriKonekciju(con);
 		}
 		
 		
+	}
+
+	public int vratIdStudent(String index) {
+		int id = 0;
+		
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		try {
+			con = CommonMethods.konektujSe("fakultet");
+			System.out.println("Konekcija ok...");
+			String sql = "select id_student\n"
+					+ "from student\n"
+					+ "where broj_indexa = ?";
+			pst = con.prepareStatement(sql);
+			     pst.setInt(1, Integer.parseInt(index));
+			     
+			rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				id = rs.getInt("id_student");
+			}
+			
+					
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			zatvoriResultSet(rs);
+			zatvoriPreparedStatement(pst);
+			zatvoriKonekciju(con);
+		}
+		
+		return id;
 	}
 
 }
